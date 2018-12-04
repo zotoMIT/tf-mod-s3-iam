@@ -1,15 +1,15 @@
 output "bucket_domain_name" {
-  value       = "${join("", aws_s3_bucket.default.*.bucket_domain_name)}"
+  value       = "${aws_s3_bucket.default.bucket_domain_name}"
   description = "FQDN of bucket"
 }
 
 output "bucket_id" {
-  value       = "${join("", aws_s3_bucket.default.*.id)}"
+  value       = "${aws_s3_bucket.default.id}"
   description = "Bucket Name (aka ID)"
 }
 
 output "bucket_arn" {
-  value       = "${join("", aws_s3_bucket.default.*.arn)}"
+  value       = "${aws_s3_bucket.default.arn}"
   description = "Bucket ARN"
 }
 
@@ -18,17 +18,12 @@ output "prefix" {
   description = "Prefix configured for lifecycle rules"
 }
 
-output "access" {
-  value       = "${var.access}"
-  description = "Access level for IAM user"
-}
-
 output "readwrite_arn" {
-  value       = "${aws_iam_policy.readwrite.*.arn}"
+  value       = "${aws_iam_policy.readwrite.arn}"
   description = "ARN of readwrite Policy"
 }
 
 output "readonly_arn" {
-  value       = "${aws_iam_policy.readonly.*.arn}"
+  value       = "${aws_iam_policy.readonly.arn}"
   description = "ARN of readonly Policy"
 }
