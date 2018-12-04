@@ -77,16 +77,15 @@ data "aws_iam_policy_document" "readonly" {
   }
 }
 
+#Create read/write and readonly policy for S3 bucket
 resource "aws_iam_policy" "readwrite" {
-  count       = "${var.access == "readwrite" ? 1 : 0}"
-  name        = "${module.label.name}-${var.access}"
+  name        = "${module.label.name}-readwrite"
   description = "Policy to allow IAM user full access to ${module.label.name} S3 bucket"
   policy      = "${data.aws_iam_policy_document.readwrite.json}"
 }
 
 resource "aws_iam_policy" "readonly" {
-  count       = "${var.access == "readonly" ? 1 : 0}"
-  name        = "${module.label.name}-${var.access}"
+  name        = "${module.label.name}-readonly"
   description = "Policy to allow IAM user read only access to ${module.label.name} S3 bucket"
   policy      = "${data.aws_iam_policy_document.readwrite.json}"
 }
