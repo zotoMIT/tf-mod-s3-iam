@@ -77,15 +77,36 @@ data "aws_iam_policy_document" "readonly" {
   }
 }
 
-#Create read/write and readonly policy for S3 bucket
+data "aws_iam_policy_document" "admin" {
+  statement {
+    actions   = ["s3:GetObject", "s3:PutObject", "s3:GetObject", "s3:ListBucket", "s3:DeleteObject"]
+    resources = ["${aws_s3_bucket.default.arn}", "${aws_s3_bucket.default.arn}/*"]
+    effect    = "Allow"
+  }
+
+  #This is needed for users to be able to select the bucket
+  statement {
+    actions   = ["s3:ListAllMyBuckets"]
+    resources = ["*"]
+    effect    = "Allow"
+  }
+}
+
+#Create read/write, readonly, and amdin policy for S3 bucket
 resource "aws_iam_policy" "readwrite" {
   name        = "${module.label.name}-readwrite"
-  description = "Policy to allow IAM user full access to ${module.label.name} S3 bucket"
+  description = "Policy to allow IAM user read/write access to ${module.label.name} S3 bucket"
   policy      = "${data.aws_iam_policy_document.readwrite.json}"
 }
 
 resource "aws_iam_policy" "readonly" {
   name        = "${module.label.name}-readonly"
   description = "Policy to allow IAM user read only access to ${module.label.name} S3 bucket"
-  policy      = "${data.aws_iam_policy_document.readwrite.json}"
+  policy      = "${data.aws_iam_policy_document.readonly.json}"
+}
+
+resource "aws_iam_policy" "admin" {
+  name        = "${module.label.name}-admin"
+  description = "Policy to allow IAM user full access to ${module.label.name} S3 bucket"
+  policy      = "${data.aws_iam_policy_document.admin.json}"
 }

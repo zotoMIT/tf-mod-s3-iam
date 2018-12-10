@@ -33,3 +33,4 @@ This module will create an S3 bucket and an IAM user policy based off of the `va
 | prefix             | Prefix configured for lifecycle rules |
 | readonly_arn       | ARN of readonly Policy                |
 | readwrite_arn      | ARN of readwrite Policy               |
+| admin_arn          | ARN of admin Policy                   |

@@ -27,3 +27,8 @@ output "readonly_arn" {
   value       = "${aws_iam_policy.readonly.arn}"
   description = "ARN of readonly Policy"
 }
+
+output "admin_arn" {
+  value       = "${aws_iam_policy.admin.arn}"
+  description = "ARN of admin Policy"
+}
