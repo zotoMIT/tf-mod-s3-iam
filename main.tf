@@ -16,11 +16,45 @@ resource "aws_s3_bucket" "default" {
   }
 
   lifecycle_rule {
-    id      = "${module.label.name}"
-    enabled = "${var.lifecycle_rule_enabled}"
+    id      = "${module.label.name}-transfer-to-IA"
+    enabled = "${var.standard_transition_enabled}"
 
-    prefix = "${var.prefix}"
-    tags   = "${module.label.tags}"
+    prefix = "${var.standard_object_prefix}"
+
+    transition {
+      days          = "${var.standard_transition_days}"
+      storage_class = "STANDARD_IA"
+    }
+  }
+
+  lifecycle_rule {
+    id      = "${module.label.name}-transfer-to-glacier"
+    enabled = "${var.glacier_transition_enabled}"
+
+    prefix = "${var.glacier_object_prefix}"
+
+    transition {
+      days          = "${var.glacier_transition_days}"
+      storage_class = "GLACIER"
+    }
+  }
+
+  lifecycle_rule {
+    id      = "${module.label.name}-expire-object"
+    enabled = "${var.expire_objects_enabled}"
+
+    prefix = "${var.expire_objects_prefix}"
+
+    expiration {
+      days = "${var.expiration_days}"
+    }
+  }
+
+  lifecycle_rule {
+    id      = "${module.label.name}-noncurrent-rules"
+    enabled = "${var.noncurrent_rules_enabled}"
+
+    prefix = "${var.noncurrent_rules_prefix}"
 
     noncurrent_version_expiration {
       days = "${var.noncurrent_version_expiration_days}"
@@ -29,20 +63,6 @@ resource "aws_s3_bucket" "default" {
     noncurrent_version_transition {
       days          = "${var.noncurrent_version_transition_days}"
       storage_class = "GLACIER"
-    }
-
-    transition {
-      days          = "${var.standard_transition_days}"
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days          = "${var.glacier_transition_days}"
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = "${var.expiration_days}"
     }
   }
 

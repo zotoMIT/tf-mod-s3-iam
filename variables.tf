@@ -44,6 +44,16 @@ variable "versioning_enabled" {
   default     = "false"
 }
 
+variable "noncurrent_rules_enabled" {
+  description = "Specifies noncurrent lifecycle rule status."
+  default     = "false"
+}
+
+variable "noncurrent_rules_prefix" {
+  description = "Object key prefix identifying one or more objects to which the lifecycle rule applies."
+  default     = ""
+}
+
 variable "noncurrent_version_expiration_days" {
   description = "(Optional) Specifies when noncurrent object versions expire."
   default     = "90"
@@ -54,14 +64,44 @@ variable "noncurrent_version_transition_days" {
   default     = "30"
 }
 
+variable "standard_transition_enabled" {
+  description = "Specifies infrequent storage transition lifecycle rule status."
+  default     = "false"
+}
+
+variable "standard_object_prefix" {
+  description = "Object key prefix identifying one or more objects to which the lifecycle rule applies."
+  default     = ""
+}
+
 variable "standard_transition_days" {
   description = "Number of days to persist in the standard storage tier before moving to the infrequent access tier"
   default     = "30"
 }
 
+variable "glacier_transition_enabled" {
+  description = "Specifies Glacier transition lifecycle rule status."
+  default     = "false"
+}
+
+variable "glacier_object_prefix" {
+  description = "Object key prefix identifying one or more objects to which the lifecycle rule applies."
+  default     = ""
+}
+
 variable "glacier_transition_days" {
   description = "Number of days after which to move the data to the glacier storage tier"
   default     = "60"
+}
+
+variable "expire_objects_enabled" {
+  description = "Specifies expiration lifecycle rule status."
+  default     = "false"
+}
+
+variable "expire_objects_prefix" {
+  description = "Object key prefix identifying one or more objects to which the lifecycle rule applies."
+  default     = ""
 }
 
 variable "expiration_days" {

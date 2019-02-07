@@ -13,11 +13,6 @@ output "bucket_arn" {
   description = "Bucket ARN"
 }
 
-output "prefix" {
-  value       = "${var.prefix}"
-  description = "Prefix configured for lifecycle rules"
-}
-
 output "readwrite_arn" {
   value       = "${aws_iam_policy.readwrite.arn}"
   description = "ARN of readwrite Policy"
