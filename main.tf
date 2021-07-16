@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 module "label" {
-  source = "github.com/mitlibraries/tf-mod-name?ref=0.12"
+  source = "github.com/mitlibraries/tf-mod-name?ref=0.13"
   name   = var.name
   tags   = var.tags
 }
@@ -72,7 +72,7 @@ resource "aws_s3_bucket" "default" {
   }
 
   # https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html
-  # https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#enable-default-server-side-encryption
+  # https://registry.terraform.io/providers/hashicorp/aws/2.70.0/docs/resources/s3_bucket#enable-default-server-side-encryption
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -85,7 +85,7 @@ resource "aws_s3_bucket" "default" {
   tags = module.label.tags
 }
 
-#Full read/write access to S3 bucket
+# Full read/write access to S3 bucket
 data "aws_iam_policy_document" "readwrite" {
   statement {
     actions   = ["s3:GetObject", "s3:PutObject", "s3:ListBucket"]
@@ -109,7 +109,7 @@ data "aws_iam_policy_document" "admin" {
     effect    = "Allow"
   }
 
-  #This is needed for users to be able to select the bucket
+  # This is needed for users to be able to select the bucket
   statement {
     actions   = ["s3:ListAllMyBuckets"]
     resources = ["*"]
@@ -117,7 +117,7 @@ data "aws_iam_policy_document" "admin" {
   }
 }
 
-#Create read/write, readonly, and amdin policy for S3 bucket
+# Create read/write, read-only, and admin policy for S3 bucket
 resource "aws_iam_policy" "readwrite" {
   name        = "${module.label.name}-readwrite"
   description = "Policy to allow IAM user read/write access to ${module.label.name} S3 bucket"
