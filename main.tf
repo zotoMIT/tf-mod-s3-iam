@@ -1,10 +1,9 @@
 provider "aws" {
-  version = "~> 2.0"
-  region  = "us-east-1"
+  region = "us-east-1"
 }
 
 module "label" {
-  source = "github.com/mitlibraries/tf-mod-name?ref=0.13"
+  source = "github.com/zotoMIT/tf-mod-name/"
   name   = var.name
   tags   = var.tags
 }
