@@ -11,7 +11,6 @@ module "label" {
 resource "aws_s3_bucket" "default" {
   bucket        = module.label.name
   acl           = var.acl
-  region        = var.region
   force_destroy = var.force_destroy
   policy        = var.policy
 
